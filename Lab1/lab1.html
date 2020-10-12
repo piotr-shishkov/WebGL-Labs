@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+        <title>WebGL Lab1 - Piotr Shishkov [FAF-193]</title>
+    </head>
+
+    <body onload="main()">
+        <canvas id="gl-canvas" width="512" height="512">
+            Your browser not supported! Sorry.
+        </canvas>
+        <div class="functions">
+            <h1>Object Management</h1>
+            <h2>Creating Objects</h2>
+              <button onclick="addObject(1)">Add Cube</button>
+              <button onclick="addObject(2)">Add Pyramid</button>
+              <button onclick="addObject(3)">Add Cylinder</button>
+              <button onclick="addObject(4)">Add Conus</button>
+            <h2>Removing Objects</h2>
+            <button onclick="removeObject(true)">Remove All</button>
+            <button onclick="removeObject(false)">Remove Last</button>
+        </div>
+    </body>
+
+    <script type="text/javascript" src="../CommonLibs/webgl-utils.js"></script>
+    <script type="text/javascript" src="../CommonLibs/webgl-debug.js"></script>
+    <script type="text/javascript" src="../CommonLibs/cuon-utils.js"></script>
+    <script type="text/javascript" src="../CommonLibs/cuon-matrix.js"></script>
+    <script type="text/javascript" src="lab1.js"></script>
+</html>

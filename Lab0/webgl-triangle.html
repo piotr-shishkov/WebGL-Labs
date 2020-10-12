@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+		<title>CG Lab0 <3</title>
+
+		<!-- vertex shader code block -->
+		<script id="vertex-shader" type="x-shader/x-vertex">
+			// READ THESE COMMENTS AFTER READING THE JS COMMENTS!!!!
+			// attribute means that it is an array containing the information 
+			// about EVERY point of the object.
+			// attribute was passed from the javascript file
+			attribute vec4 vPosition;
+			attribute vec4 vColor;
+
+			// varying means that we will pass this data to fragment shader
+			// this data was NOT passed from the JS file.
+			varying vec4 fColor;
+
+			void
+			main() {
+				// not doing any transformations, just taking the position that came 
+				// from the JS file and applying it to gl_Position which is the FINAL position.
+			    gl_Position = vPosition;
+
+			    // assigning vColor that was passed from JS to fColor that WILL be passed to fragment shader
+				fColor = vColor;
+			}
+		</script>
+
+		<!-- fragment shader code block -->
+		<script id="fragment-shader" type="x-shader/x-fragment">
+			precision mediump float;
+
+			// READ THESE COMMENTS AFTER READING THE JS COMMENTS!!!!
+			// in order to work, varying must be declared in both shaders
+			varying vec4 fColor;
+			void
+			main() {
+				// no transformations of color, just take it as it came from the v-shader
+				// gl_FragColor is the FINAL color!!!
+			    gl_FragColor = fColor;
+			}
+		</script>
+
+		<!-- including all scripts needed -->
+		<script type="text/javascript" src="../CommonLibs/webgl-utils.js"></script>
+		<script type="text/javascript" src="../CommonLibs/initShaders.js"></script>
+		<script type="text/javascript" src="../CommonLibs/MV.js"></script>
+		<script type="text/javascript" src="webgl-triangle.js"></script>
+	</head>
+
+	<body>
+		<!-- canvas element with size attributes!! -->
+		<canvas id="gl-canvas" width="512" height="512">
+		Oops ... your browser doesn't support the HTML5 canvas element
+		</canvas>
+	</body>
+</html>
