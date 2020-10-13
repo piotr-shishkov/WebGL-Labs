@@ -240,13 +240,13 @@ function createCone()
 {
     var verticesColors = [];
     var indices = []
-    const sectors = 2 * Math.PI / 16;
+    const sectors = 2 * Math.PI / 4;
     var angle;
 
 
     verticesColors.push(0, 0.5, 0, 1, 0, 1);
 
-    for (let i = 0; i < 16; i++) 
+    for (let i = 0; i < 4; i++) 
     {
         angle = i * sectors;
             
@@ -255,13 +255,13 @@ function createCone()
         verticesColors.push(Math.sin(angle) / 2);
         verticesColors.push(1, 1, 0);
         
-        if (i <= 16)
+        if (i <= 4)
             indices.push(0, i, i + 1);
-            indices.push(16, i, i + 1);
+            indices.push(4, i, i + 1);
     }
 
     verticesColors.push(0, -0.5, 0, 1, 1, 0);
-    indices.push(0, 15, 1)
+    indices.push(0, 3, 1)
 
     return new Object(
         new Float32Array(verticesColors),
