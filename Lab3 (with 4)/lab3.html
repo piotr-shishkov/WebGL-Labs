@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <title>WebGL Lab3 - Piotr Shishkov [FAF-193]</title>
+</head>
+
+<body onload="main()">
+  <canvas id="gl-canvas" width="512" height="512">
+    Your browser not supported! Sorry.
+  </canvas>
+  <div>
+    <label for="ambient">Ambient</label>
+    <input type="checkbox" name="ambient" id="ambient" checked>
+    <label for="pointed">Point</label>
+    <input type="checkbox" name="point" id="point" checked>
+    <label for="diffuse">Diffuse</label>
+    <input type="checkbox" name="diffuse" id="diffuse" checked>
+    <div class="flex">
+      <div>
+        <p>Point X</p>
+        <span>-3</span>
+        <input type="range" id='pposX' value="3" min='-3' max='3' step='0.1' oninput="updatePointLight(1)">
+        <span>3</span>
+      </div>
+
+      <div>
+        <p>Point Y</p>
+        <span>-3</span>
+        <input type="range" id='pposY' value="3" min='-3' max='3' step='0.1' oninput="updatePointLight(2)">
+        <span>3</span>
+      </div>
+
+      <div>
+        <p>Point Z</p>
+        <span>-5</span>
+        <input type="range" id='pposZ' value="4"min='-5' max='5' step='0.1' oninput="updatePointLight(3)">
+        <span>5</span>
+      </div>
+      <div>
+        <p>Intensity </p>
+        <span>0</span>
+        <input type="range" id='pint' min='0' max='3' step='0.1' oninput="updatePointLight(4)">
+        <span>3</span>
+      </div>
+    </div>
+    <h2>Object Management</h2>
+    <h3>Creating Objects</h3>
+    <button id="cube-button" onclick="addObject(1)">Add Cube</button>
+    <button id="pyramid-button" onclick="addObject(2)">Add Pyramid</button>
+    <button id="cylinder-button" onclick="addObject(3)">Add Cylinder</button>
+    <button id="conus-button" onclick="addObject(4)">Add Conus</button>
+    <button id="sphere-button" onclick="addObject(5)">Add Sphere</button>
+    Custom:
+    <input type="file" accept=".obj" id="obj-input"/>
+    Texture:
+    <input type="file" accept=".jpg,.png,.gif" id="text-input"/>	
+    <h3>Removing Objects</h3>
+    <button onclick="removeObject(true)">Remove All</button>
+    <button onclick="removeObject(false)">Remove Last</button>
+    <button onclick="removeCustomObject()">Remove Custom</button>
+    <div id="object-controls" style="display: none;">
+      <h2>Object Controls</h2>
+      <p>Selected Object:
+        <select name="Object number" id="selectObject" style="width: 50px"></select>
+      </p>
+      <div>
+        <button onclick="setRot(true, 1)">Rotate X</button>
+        <button onclick="setRot(true, 2)">Rotate Y</button>
+        <button onclick="setRot(true, 3)">Rotate Z</button>
+        <button onclick="setRot(false, 0)">Stop Rotation</button>
+      </div>
+
+      <div class="flex">
+        <div>
+          <p>Position X</p>
+          <span>-3</span>
+          <input type="range" id='posX' min='-3' max='3' step='0.2' oninput="setPos(1)">
+          <span>3</span>
+        </div>
+
+        <div>
+          <p>Position Y</p>
+          <span>-3</span>
+          <input type="range" id='posY' min='-3' max='3' step='0.2' oninput="setPos(2)">
+          <span>3</span>
+        </div>
+
+        <div>
+          <p>Position Z</p>
+          <span>-3</span>
+          <input type="range" id='posZ' min='-3' max='3' step='0.2' oninput="setPos(3)">
+          <span>3</span>
+        </div>
+
+        <div>
+          <p>Scale</p>
+          <span>0.1</span>
+          <input type="range" id='size' min='0.1' max='2' step='0.1' oninput="setScale()">
+          <span>2.0</span>
+        </div>
+      </div>
+    </div>
+    <div id="camera-controls" style="display: none;">
+      <h2>Camera Controls</h2>
+      <div class="flex">
+        <div>
+          <p>FOV</p>
+          <span>5</span>
+          <input type="range" id='perspFov' min='5' max='100' value="50" step='1'
+            oninput="updateCameraSettings('perspFov')">
+          <span>100</span>
+        </div>
+        <div>
+          <p>Aspect Perspective</p>
+          <span>0</span>
+          <input type="range" id='perspAspect' min='0' max='2' value="1" step='0.05'
+            oninput="updateCameraSettings('perspAspect')">
+          <span>2</span>
+        </div>
+        <div>
+          <p>Near View</p>
+          <span>0.5</span>
+          <input type="range" id='perspNear' min='0.5' max='20' value="1" step='0.5'
+            oninput="updateCameraSettings('perspNear')">
+          <span>20</span>
+        </div>
+        <div>
+          <p>Far View</p>
+          <span>5</span>
+          <input type="range" id='perspFar' min='5' max='20' value="15" step='1'
+            oninput="updateCameraSettings('perspFar')">
+          <span>20</span>
+        </div>
+        <div>
+          <p>Camera X</p>
+          <span>-10</span>
+          <input type="range" id='camX' min='-10' max='10' step='1' value="0" oninput="updateCameraSettings('camX')">
+          <span>10</span>
+        </div>
+        <div>
+          <p>Camera Y</p>
+          <span>-10</span>
+          <input type="range" id='camY' min='-10' max='10' step='1' value="3" oninput="updateCameraSettings('camY')">
+          <span>10</span>
+        </div>
+        <div>
+          <p>Camera Z</p>
+          <span>-10</span>
+          <input type="range" id='camZ' min='-10' max='10' step='1' value="6" oninput="updateCameraSettings('camZ')">
+          <span>10</span>
+        </div>
+      </div>
+    </div>
+    </div>
+    <p>Note: Add any object to start control it.</p>
+</body>
+
+<link rel="stylesheet" href="style.css">
+<script type="text/javascript" src="../CommonLibs/webgl-utils.js"></script>
+<script type="text/javascript" src="../CommonLibs/webgl-debug.js"></script>
+<script type="text/javascript" src="../CommonLibs/cuon-utils.js"></script>
+<script type="text/javascript" src="../CommonLibs/cuon-matrix.js"></script>
+<script type="text/javascript" src="../CommonLibs/MV.js"></script>
+<script type="text/javascript" src="lab3.js"></script>
+
+</html>
